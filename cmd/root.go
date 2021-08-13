@@ -6,9 +6,17 @@ import (
 	"os"
 
 	"github.com/karuppiah7890/go-jsonschema-generator"
+	bb "github.com/runyontr/helm-schema-gen/pkg/bigbang"
 	"github.com/spf13/cobra"
 	"gopkg.in/yaml.v2"
 )
+
+var bbversion string
+
+func init() {
+	rootCmd.Flags().StringVar(&bbversion, "bb", "", "Big Bang version")
+	// flag.StringVar(&bbversion, "bb", "", "Big Bang Version")
+}
 
 // rootCmd represents the base command when called without any subcommands
 var rootCmd = &cobra.Command{
@@ -23,6 +31,10 @@ Examples:
 `,
 	RunE: func(cmd *cobra.Command, args []string) error {
 		if len(args) == 0 {
+			if bbversion != "" {
+				return bb.Run(bbversion)
+			}
+
 			return fmt.Errorf("pass one values yaml file")
 		}
 		if len(args) != 1 {
