@@ -12,9 +12,11 @@ import (
 )
 
 var bbversion string
+var path string
 
 func init() {
 	rootCmd.Flags().StringVar(&bbversion, "bb", "", "Big Bang version")
+	rootCmd.Flags().StringVar(&path, "path", "", "path to bb chart")
 	// flag.StringVar(&bbversion, "bb", "", "Big Bang Version")
 }
 
@@ -33,6 +35,9 @@ Examples:
 		if len(args) == 0 {
 			if bbversion != "" {
 				return bb.Run(bbversion)
+			}
+			if path != "" {
+				return bb.Run(path)
 			}
 
 			return fmt.Errorf("pass one values yaml file")
